@@ -16,12 +16,13 @@ const {server} = require('../../src/app.js');
 const supertest = require('supertest');
 const mockRequest = supertest(server);
 
-beforeAll(async () => {
+beforeAll(async (done) => {
   mongoServer = new MongoMemoryServer();
   const mongoUri = await mongoServer.getConnectionString();
   await mongoose.connect(mongoUri, (err) => {
     if (err) console.error('Mongo Connection Error', err);
   });
+  done();
 });
 
 afterAll(() => {

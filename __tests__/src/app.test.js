@@ -103,5 +103,36 @@ describe('api server', () => {
       .catch( err => console.error('err', err) );
 
   });
-
+  
+  it('can signup for auth access', () => {
+    let auth = {username:'test', password:'test'};
+    return mockRequest
+      .post('/signup')
+      .send(auth)
+      .then(results => {
+        expect(results.status).toBe(302);
+        expect(results.body.username).toEqual(auth.username);
+      })
+      .catch(err => {
+        expect(err).not.toBeDefined();
+      });
+  });
+  it('can sign in with good credentials', () => {
+    let auth = {username:'test2', password:'test'};
+    return mockRequest
+      .post('/signup')
+      .send(auth)
+      .then(user => {
+        return mockRequest
+          .post('/signin')
+          .send(auth)
+          .then(results => {
+            expect(results.status).toBe(200);
+            expect(results.username).toEqual(auth.username && user.username);
+          })
+          .catch(err => {
+            expect(err).not.toBeDefined();
+          });
+      });
+  });
 });

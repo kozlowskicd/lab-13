@@ -16,12 +16,10 @@ models object:
  */
 
 export default (req,res,next) => {
-  
   let model = req.params.model;
   try {
     req.model = models[model].model.default;
     next();
   }
   catch(e) { next('Invalid Model'); }
-  
 };

@@ -10,19 +10,18 @@ let mongoServer;
 
 // Unmock our model (might have been mocked by a previous test)
 jest.unmock('require-directory');
-
+jest.setTimeout(20000);
 // Mock Server
 const {server} = require('../../src/app.js');
 const supertest = require('supertest');
 const mockRequest = supertest(server);
 
-beforeAll(async (done) => {
+beforeAll(async() => {
   mongoServer = new MongoMemoryServer();
   const mongoUri = await mongoServer.getConnectionString();
   await mongoose.connect(mongoUri, (err) => {
     if (err) console.error('Mongo Connection Error', err);
   });
-  done();
 });
 
 afterAll(() => {

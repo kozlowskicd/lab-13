@@ -1,7 +1,7 @@
 'use strict';
 
 import express from 'express';
-
+import auth from '../auth/middleware.js';
 import modelFinder from '../middleware/model-finder.js';
 
 const router = express.Router();
@@ -16,7 +16,7 @@ let sendJSON = (data,response) => {
 
 router.param('model', modelFinder);
 
-router.get('/api/v1/:model/schema', (request, response) => {
+router.get('/api/v1/:model/schema', auth, (request, response) => {
   sendJSON(request.model.jsonSchema(), response);
 });
 

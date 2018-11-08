@@ -7,21 +7,22 @@ const authRouter = express.Router();
 import User from './model.js';
 import auth from './middleware.js';
 
-// These routes should support a redirect instead of just spitting out the token ...
+
 authRouter.post('/signup', (req, res, next) => {
   let user = new User(req.body);
   user.save()
-    .then( (user) => {
+    .then((user) => {
       req.token = user.generateToken();
       req.user = user;
       res.cookie('auth', req.token);
-      res.send(req.token);
+      res.redirect('/');
     }).catch(next);
 });
 
 authRouter.post('/signin', auth, (req, res, next) => {
+  console.log(req.user, req.token);
   res.cookie('auth', req.token);
-  res.send(req.token);
+  res.redirect('/');
 });
 
 export default authRouter;

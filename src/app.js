@@ -27,8 +27,10 @@ app.use(express.urlencoded({extended:true}));
 // Routes
 app.use(authRouter);
 app.use(apiRouter);
+app.use(authRouter);
 
 // Catchalls
+
 app.use(notFound);
 app.use(errorHandler);
 
